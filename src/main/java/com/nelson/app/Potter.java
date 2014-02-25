@@ -3,6 +3,8 @@ package com.nelson.app;
 
 public class Potter
 {
+  private final boolean DEBUG = true;
+
   public double getPrice(int[] books) {
     if (books.length == 0) {
       return 0;
@@ -12,22 +14,37 @@ public class Potter
       return 8;
     }
 
-    int uniqueTitles = 1;
-    int prevTitle = books[0];
+    int[] titleCount = {0, 0, 0, 0, 0};
+    for (int i = 0; i < books.length; i++) {
+      titleCount[books[i]]++;
 
-    System.out.printf("books[0]: %d\n", books[0]); //DEBUG
-    
-    for (int i = 1; i < books.length; i++) {
-      if (books[i] != prevTitle) uniqueTitles++;
-
-      System.out.printf("books[%d]: %d\n", i, books[i]); //DEBUG
     }
     
-    System.out.printf("UNIQUE TITLES = %d\n", uniqueTitles); //DEBUG
-
-    double price = getDiscountRate(uniqueTitles) + (books.length - uniqueTitles) * 8;
+  
+    double totalPrice = 0;
+    boolean booksRemaining = true;
+    while (booksRemaining) {
+      booksRemaining = false;
     
-    return price;
+      printTitleCount(titleCount);
+      
+      int uniqueTitles = 0;
+      for (int i = 0; i < titleCount.length; i++) {
+        if (titleCount[i] > 0) {
+          booksRemaining = true;
+          uniqueTitles++;
+          titleCount[i]--;
+        }
+      }
+
+      totalPrice += getDiscountRate(uniqueTitles);
+      if (DEBUG) System.out.printf("CURRENT PRICE = %f\n", totalPrice);
+
+    }
+
+    if (DEBUG) System.out.printf("TOTAL PRICE = %f\n", totalPrice);
+    System.out.println();
+    return totalPrice;
   }
 
 
@@ -50,6 +67,16 @@ public class Potter
 
     return discountRate * uniqueTitles * 8;
         
+  }
+
+  private void printTitleCount(int[] titleCount) {
+    if (DEBUG) {
+      System.out.printf("TITLECOUNT: %d", titleCount[0]);
+      for (int i = 1; i < titleCount.length; i++) {
+        System.out.printf(", %d", titleCount[i]);
+      }
+      System.out.println();
+    }
   }
 
 }

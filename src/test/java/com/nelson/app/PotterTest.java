@@ -23,7 +23,8 @@ public class PotterTest {
     {0, 1, 2, 4}, //10
     {0, 1, 2, 3, 4}, //11
     {0, 0, 1}, //12
-    {0, 0, 1, 1} 
+    {0, 0, 1, 1}, //13
+    {0, 0, 1, 1, 2, 2, 3, 4} 
 
   };
 
@@ -36,7 +37,15 @@ public class PotterTest {
     assertEquals(8, p.getPrice(books[3]), .0001);
     assertEquals(8, p.getPrice(books[4]), .0001);
     assertEquals(8, p.getPrice(books[5]), .0001);
+  }   
+ 
+  @Test
+  public void testBasic2() {
     assertEquals(2 * 8, p.getPrice(books[6]), .0001);
+  }
+
+  @Test
+  public void testBasic3() {
     assertEquals(3 * 8, p.getPrice(books[7]), .0001);
   
   }
@@ -57,6 +66,10 @@ public class PotterTest {
 
   }
 
+  @Test
+  public void testEdgeCases() {
+    assertEquals(2 * (8 * 4 * .08), p.getPrice(books[14]), .0001);
 
- 
+  }
+
 }
