@@ -3,9 +3,9 @@ package com.nelson.app;
 import java.util.Collections;
 import java.util.Arrays;
 
-public class Potter
-{
-  private final boolean DEBUG = true;
+public class Potter {
+  
+  private final boolean DEBUG = false;
 
   public double getPrice(int[] books) {
     if (books.length == 0) {
@@ -13,12 +13,7 @@ public class Potter
     }
 
     int[] titleCount = {0, 0, 0, 0, 0};
-    for (int i = 0; i < books.length; i++) {
-      titleCount[books[i]]++;
-
-    }
-
-    int[] titleCountClone = titleCount.clone();
+    for (int i = 0; i < books.length; i++) titleCount[books[i]]++;
 
     if (DEBUG) System.out.println();
     if (DEBUG) printTitleCount(titleCount);
@@ -62,67 +57,6 @@ public class Potter
 
   }
 
-  private double getGreedy4Price(int[] titleCount) {
-    double totalPrice = 0;
-
-    titleCount = sortDescending(titleCount);
-    if (DEBUG) printTitleCount(titleCount);
-
-    int i = 0;
-    int uniqueTitles = 0;
-    int[] titleCountCopy;
-    while (i < titleCount.length) {
-      titleCountCopy = sortDescending(titleCount);
-      if (titleCountCopy[i] > 0) {
-        uniqueTitles++;
-        titleCountCopy[i]--;
-        i++;
-      }
-
-      if (uniqueTitles == 4) {
-        totalPrice += getDiscountRate(uniqueTitles);
-        
-      }
-
-    }
-
-
-    if (DEBUG) System.out.printf("Greedy4: %f\n", totalPrice);
-    totalPrice += getSimplePrice(titleCount);
-    if (DEBUG) System.out.printf("Greedy4 + simple: %f\n", totalPrice);
-
-    return totalPrice;
-  }
-
-
-  private double getSimplePrice(int[] titleCount) {
-    double totalPrice = 0;
-    boolean booksRemaining = true;
-    while (booksRemaining) {
-      booksRemaining = false;
-    
-      if (DEBUG) printTitleCount(titleCount);
-      
-      int uniqueTitles = 0;
-      for (int i = 0; i < titleCount.length; i++) {
-        if (titleCount[i] > 0) {
-          booksRemaining = true;
-          uniqueTitles++;
-          titleCount[i]--;
-        }
-      }
-
-      totalPrice += getDiscountRate(uniqueTitles);
-      if (DEBUG) System.out.printf("CURRENT PRICE = %f\n", totalPrice);
-
-    }
-
-    if (DEBUG) System.out.printf("TOTAL PRICE = %f\n", totalPrice);
-    
-    return totalPrice;
-  }
-
-
   private double getDiscountRate(int uniqueTitles) {
     double discountRate = 1;
     switch (uniqueTitles) {
@@ -142,15 +76,6 @@ public class Potter
 
     return discountRate * uniqueTitles * 8;
         
-  }
-
-  private int[] sortDescending(int[] a) {
-    Arrays.sort(a);
-    int[] b = new int[a.length];
-    for (int i = 0; i < a.length; i++) {
-      b[i] = a[a.length - i - 1];
-    }
-    return b;
   }
 
   private void printTitleCount(int[] titleCount) {
