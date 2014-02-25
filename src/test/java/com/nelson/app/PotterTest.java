@@ -16,6 +16,8 @@ public class PotterTest {
     {2},
     {3},
     {4},
+    {0, 0},
+    {1, 1, 1}
   };
 
 
@@ -27,7 +29,8 @@ public class PotterTest {
     assertEquals(8, p.getPrice(books[3]), .0001);
     assertEquals(8, p.getPrice(books[4]), .0001);
     assertEquals(8, p.getPrice(books[5]), .0001);
-  //  assertEquals(8, p.getPrice(books[6]), .0001);
+    assertEquals(2 * 8, p.getPrice(books[6]), .0001);
+    assertEquals(3 * 8, p.getPrice(books[7]), .0001);
 
 
   
